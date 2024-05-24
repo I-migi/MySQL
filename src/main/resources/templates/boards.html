@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .post {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            position: relative;
+        }
+        .post:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .post .title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .post .author {
+            font-style: italic;
+            color: #666;
+        }
+        .post .content {
+            margin-top: 10px;
+        }
+        .post .actions {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        .post .actions a {
+            margin-left: 10px;
+        }
+        .add-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .add-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-button a:hover {
+            background-color: #0056b3;
+        }
+        .alert{
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>게시판</h2>
+
+    <!-- 게시물 등록 버튼 -->
+    <div class="add-button">
+        <a th:onclick="|location.href='@{/boards/addBoardForm}'|">게시물 등록</a>
+    </div>
+
+    <!-- 게시물 목록 -->
+    <div class="posts">
+        <div class="post" th:each="board : ${boards}">
+            <div class="title" th:text="${board.title}"></div>
+            <div class="name" th:text="${board.name}"></div>
+            <div class="content" th:utext="${board.content}">
+            </div>
+            <div class="actions">
+
+                <button class="edit-button" th:onclick="|location.href='@{/boards/}' +${board.id} + '@{/edit}'|">수정</button>
+
+                <button th:onclick="|location.href='@{/boards/}' +${board.id} +'@{/delete}'|">삭제</button>
+            </div>
+        </div>
+    </div>
+    <div th:if="${param.error}" class="alert" >작성자만 수정할 수 있습니다.</div>
+
+</div>
+</body>
+</html>
